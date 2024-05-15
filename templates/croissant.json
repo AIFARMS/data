@@ -10,6 +10,7 @@
     "citeAs": "{{ citation }}",
     "license": "https://data.aifarms.org/license/{{ dataset }}",
     "url": "https://data.aifarms.org/view/{{ dataset }}",
+    "datePublished": "{{ created }}",
     "creator": [
       {%- for author in authors %}
       {

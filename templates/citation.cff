@@ -8,6 +8,7 @@ authors:
   {%- for author in authors %}
   - name: {{ author }}
   {%- endfor %}
+date-released: {{ created }}
 identifiers:
   - type: url
     value: 'https://data.aifarms.org/view/{{ dataset }}'
