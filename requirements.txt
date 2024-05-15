@@ -1,0 +1,6 @@
+Flask
+Jinja2
+gunicorn
+pysqlite3
+flask-moment
+gevent

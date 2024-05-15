@@ -1,0 +1,31 @@
+{% extends "page.html" %}
+
+{% block main %}
+    <div class="alert alert-success m-3" role="alert">
+        Your download should start momentarily.
+    </div>
+    <div class="row m-3">
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <th scope="row">URL</th><td><a href="{{ url }}">{{ url }}</a></td>
+            </tr>
+            <tr>
+              <th scope="row">FileSize</th><td>{{ filesize }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Expires</th><td>{{ moment(expires).format('LLL') }}</td>
+            </tr>
+            <tr>
+              <th scope="row">Signee</th><td>{{ download['title'] }} {{ download['name'] }} &lt;{{ download['email'] }}&gt;</td>
+            </tr>
+          </tbody>
+        </table>
+    </div>
+
+    <script>
+        setTimeout(function() {
+            window.location.href = "{{ url }}";
+        }, 500);
+    </script>
+{% endblock %}

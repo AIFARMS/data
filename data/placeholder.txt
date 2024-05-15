@@ -1,0 +1,3 @@
+This folder will hold the sqlite database file.  It is not included in the repository, but will be created
+when the application is run for the first time. Additionally this folder contains the datasets.json and all
+zip files with the actual datasets.

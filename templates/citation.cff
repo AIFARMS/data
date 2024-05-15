@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+title: {{ title}}
+message: >-
+  If you use this dataset, please cite it using the metadata
+  from this file.
+type: dataset
+authors:
+  {%- for author in authors %}
+  - name: {{ author }}
+  {%- endfor %}
+identifiers:
+  - type: url
+    value: 'https://data.aifarms.org/view/{{ dataset }}'
+repository-artifact: 'https://data.aifarms.org/download/{{ dataset }}'
+abstract: >-
+  {{ description}}
+keywords:
+  {%- for keyword in keywords %}
+  - {{ keyword }}
+  {%- endfor %}
+license-url: https://data.aifarms.org/license/{{ dataset }}

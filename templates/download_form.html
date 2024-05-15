@@ -1,0 +1,65 @@
+{% extends "page.html" %}
+
+{% block head %}
+    <link href="static/css/carousel.css" rel="stylesheet">
+{% endblock %}
+
+{% block main %}
+    <div>{{ description }}</div>
+    <div class="row m-3 p-3 card">
+    <form class="needs-validation" method="post" novalidate>
+      <div class="mb-3 form-group">
+        <label for="inputTitle">Title</label>
+        <input type="text" class="form-control" id="title" name="title" aria-describedby="titleHelp" placeholder="Enter your title">
+      </div>
+      <div class="mb-3 form-group">
+        <label for="inputName">Name</label>
+        <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp" placeholder="Enter your name" required>
+        <div id="nameHelp" class="form-text text-muted">We'll never share your name and email with anyone else.</div>
+        <div class="invalid-feedback">Please provide a valid name.</div>
+      </div>
+      <div class="mb-3 form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" required>
+        <div id="emailHelp" class="form-text text-muted">We'll never share your name and email with anyone else.</div>
+        <div class="invalid-feedback">Please provide a valid email.</div>
+      </div>
+      <div class="mb-3 form-group">
+        <label for="inputAffiliation">Affiliation</label>
+        <input type="text" class="form-control" id="affiliation" name="affiliation" aria-describedby="affiliationHelp" placeholder="Enter your title">
+      </div>
+      <div class="mb-3 form-group">
+        <label for="license">License Agreement</label>
+        <textarea class="form-control" id="license" rows="20" readonly>{{ rendered_license }}</textarea>
+      </div>
+      <div class="mb-3 form-group form-check">
+        <input type="checkbox" class="form-check-input" id="checkAgree" name="license" required>
+        <label class="form-check-label" for="checkAgree">I agree to the license</label>
+        <div class="invalid-feedback">You must agree before submitting.</div>
+      </div>
+      <button type="mb-3 submit" class="btn btn-primary">Submit</button>
+    </form>
+    </div>
+    <script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(function () {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.prototype.slice.call(forms)
+    .forEach(function (form) {
+      form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+    </script>
+{% endblock %}

@@ -1,0 +1,43 @@
+{
+    "@context": {
+      "@language": "en",
+      "@vocab": "https://schema.org/"
+    },
+    "@type": "sc:Dataset",
+    "name": "{{ title }}",
+    "conformsTo": "http://mlcommons.org/croissant/1.0",
+    "description": "{{ short_description }}",
+    "citeAs": "{{ citation }}",
+    "license": "https://data.aifarms.org/license/{{ dataset }}",
+    "url": "https://data.aifarms.org/view/{{ dataset }}",
+    "creator": [
+      {%- for author in authors %}
+      {
+        "@type": "sc:Person",
+        "name": "{{ author }}"
+        {#- "email": "harm.devries@servicenow.com" #}
+      {%- if loop.last %}
+      }
+      {%- else %}
+      },
+      {%- endif %}
+      {%- endfor %}
+    ],
+    "distribution": [
+      {
+        "@type": "cr:FileSet",
+        "@id": "{{ dataset }}.zip",
+        "contentUrl": "https://data.aifarms.org/download/{{ dataset }}",
+        "contentSize": "{{ filesize }}",
+        "encodingFormat": "application/x-zip-compressed"
+      }
+    ],
+    "keywords": [
+      {%- for keyword in keywords %}
+      "{{ keyword }}"
+      {%- if not loop.last %}
+      ,
+      {%- endif %}
+      {%- endfor %}
+    ]
+}
