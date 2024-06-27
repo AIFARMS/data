@@ -7,14 +7,11 @@
 {% block main %}
     <div>Created: {{ created }}</div>
     <div>{{ description }}</div>
-    <div><ul>
-      <li>{{ description_list[0] }}</li>
-      <li>{{ description_list[1] }}</li>
-      <li>{{ description_list[2] }}</li>
-      <li>{{ description_list[3] }}</li>
-      <li>{{ description_list[4] }}</li>
-      <li>{{ description_list[5] }}</li>
-        </ul></div>
+    <div>
+      {% for item in description_list -%}<ul>
+      <li>{{ description_list[item] }}</li>
+        </ul>
+    </div>
 
     <div>{{ contact }}</div>
     <div>{{ citation }}</div>
