@@ -1,7 +1,7 @@
 {
   "piglife": {
     "uuid": "650a8ec5e4b079053a530571",
-    "title": "CowLife",
+    "title": "PigLife",
     "preview": "static/images/piglife.png",
     "authors": [
       "Jiangong Li",
@@ -11,6 +11,7 @@
     "created": "Sep 20, 2023",
     "short_description": "PigLife is a public dataset that contains video clips and images across the most pig production cycle",
     "description": "PigLife is a public dataset that contains video clips and images across the most pig production cycle in different systems: breeding, gestation, farrow, wean, nursery, growth, and finish. PigLife is created to promote the development of robust computer vision models and algorithms in pig farms that has several features: a) Object identification, bounding box and segmentation b) Pig posture & behavior labels c) Pig occlusion labels d) Naming rules to each image & video regarding to animal variation, vision augmentation, environment diversity e) Video files f) Image files",
+    "description_list": ["Object identification, bounding box and segmentation","Pig posture & behavior labels","Pig occlusion labels","Naming rules to each image & video regarding to animal variation, vision augmentation, environment diversity","Video files","Image files"],
     "images": [ ],
     "contact": "Angela Green-Miller <angelag@illinois.edu>",
     "citation": "",
