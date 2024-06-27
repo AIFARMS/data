@@ -6,6 +6,7 @@
 
 {% block main %}
     <div>Created: {{ created }}</div>
+    <br>
     <div>{{ description }}</div>
     <div><ul>
       <li>{{ description_list[0] }}</li>
@@ -17,11 +18,12 @@
         </ul></div>
 
     <div>{{ contact }}</div>
+    <br>
     <div>{{ citation }}</div>
     <div>{{ funding }}</div>
     <div><a href="download/{{ dataset }}"><button type="submit" class="btn btn-primary">Download</button></a>
-      <a href="croissant/{{ dataset }}"><button type="submit" class="btn btn-primary">🥐</button></a>
       <a href="license/{{ dataset }}"><button type="submit" class="btn btn-primary">License</button></a>
+      <a href="croissant/{{ dataset }}"><button type="submit" class="btn btn-primary">🥐</button></a>
     </div>
     
 
