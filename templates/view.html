@@ -7,6 +7,7 @@
 {% block main %}
     <div>Created: {{ created }}</div>
     <div>{{ description }}</div>
+    {% for item in description_list -%}
     <div><ul>
       <li>{{ description_list[0] }}</li>
       <li>{{ description_list[1] }}</li>
