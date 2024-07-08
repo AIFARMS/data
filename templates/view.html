@@ -6,12 +6,7 @@
 
 {% block main %}
     <div>Created: {{ created }}</div>
-    <div>{{ description }}</div>
-    <div><ul>
-      {% for item in description_list -%}
-      <li>{{ item }}</li>
-      {% endfor -%}
-    </ul></div>
+    <div>{{ description|safe }}</div>
     <div>{{ contact }}</div>
     <div>{{ citation }}</div>
     <div>{{ funding }}</div>
