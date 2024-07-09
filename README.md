@@ -2,7 +2,7 @@
 
 ## AIFARMS Data Browser
 
-AIFARMS Data Browser is used to share data collected as part as AIFARMS with others across the world. Using best practices metdata about the data is gatherered and recoreded in json document as well as representative images of the dataset. Once the data is collected, and the appropriate license is selected the data is zipped and placed in next to datasets.json. At this point it is made available for download.
+AIFARMS Data Browser is used to share data collected as part as AIFARMS with others across the world. Using best practices metadata about the data is gathered and recorded in json document as well as representative images of the dataset. Once the data is collected, and the appropriate license is selected the data is zipped and placed in next to datasets.json. At this point it is made available for download.
 
 ![Alt](homepage.png "AIFARMS Data Browser homepage")
 
