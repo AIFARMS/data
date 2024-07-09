@@ -10,7 +10,7 @@
     "department": "Agricultural and Biological Engineering",
     "created": "Sep 20, 2023",
     "short_description": "PigLife is a public dataset that contains video clips and images across the most pig production cycle",
-    "description": "PigLife is a public dataset that contains video clips and images across the most pig production cycle in different systems: breeding, gestation, farrow, wean, nursery, growth, and finish. PigLife is created to promote the development of robust computer vision models and algorithms in pig farms that has several features: a) Object identification, bounding box and segmentation b) Pig posture & behavior labels c) Pig occlusion labels d) Naming rules to each image & video regarding to animal variation, vision augmentation, environment diversity e) Video files f) Image files",
+    "description": "PigLife is a public dataset that contains video clips and images across the most pig production cycle in different systems: breeding, gestation, farrow, wean, nursery, growth, and finish. PigLife is created to promote the development of robust computer vision models and algorithms in pig farms that has several features: <ul><li>Object identification, bounding box and segmentation</li><li>Pig posture & behavior labels</li><li>Pig occlusion labels</li><li>Naming rules to each image & video regarding<ul><li>Animal variation</li><li>Vision augmentation</li><li>Environment diversity</li></ul></li><li>Video files</li><li>Image files</li></ul>",
     "images": [ ],
     "contact": "Angela Green-Miller <angelag@illinois.edu>",
     "citation": "",
