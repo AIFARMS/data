@@ -1,8 +1,6 @@
 name: Docker
 
 on:
-  #for testing
-  workflow_dipatch:
   push:
     branches:
       - main
