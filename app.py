@@ -42,7 +42,7 @@ def home():
     data = load_data()
     kwargs = {
         "title": "AIFARMS Data Portal",
-        "short_description": "Data gathered as part of AIFARMS that is public available.",
+        "short_description": "Data gathered as part of AIFARMS that is publicly available.",
         "authors": "",
         "data": data
     }
