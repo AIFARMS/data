@@ -49,7 +49,16 @@
         <div>Contact: <br>{{ contact }}</div>
         <div>Download Size: {{ filesize }}</div>
         <div class="bi bi-cloud-download">Download Size: {{ filesize }}</div>
-        <div>{{ AIFARMS_keywords }}</div>
+        <div>Keywords:</div>
+        <row>
+          {% for word in AIFARMS_keywords %}
+            {% if loop.index == AIFARMS_keywords|length %}
+              <a>{{ word }}</a>
+            {% else %}
+              <a>{{ word }}, </a>
+            {% endif %}
+          {% endfor -%}
+        </row>
       </div>
     </div>
   </div>
