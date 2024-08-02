@@ -10,6 +10,13 @@ The view page will show not only the metadata, but also links to download, see t
 
 The download page will show the license and a short questionaire. Once this is filled out, a unique link is generated that can be used to download the data.
 
+## Local Development
+
+The repository contains everything needed to run. The data folder has a simmple json document with data, and a single downloadable zip file. To automatically reload the container when changes are made use:
+```
+docker compose up --build --watch
+```
+
 ## License
 
 Copyright (c) 2024, University of Illinois

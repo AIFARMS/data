@@ -1,0 +1,10 @@
+services:
+  data:
+    image: aifarms/data:latest
+    build: .
+    develop:
+      watch:
+        - path: .
+          action: rebuild
+    volumes:
+      - ./data:/src/data
