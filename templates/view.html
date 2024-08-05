@@ -38,26 +38,23 @@
       <div id="nextToCarousel" class="vstack gap-3 w-25" >
         <row>
           <a href="download/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top" 
-            title="Download Size: {{ filesize }}" class="btn btn-secondary bi bi-cloud-download"></button></a>
+            title="Download" class="btn btn-secondary bi bi-cloud-download"></button></a>
           <a href="license/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top" 
             title="License" class="btn btn-secondary bi bi-cc-circle"></button></a>
           <a href="croissant/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top"
             title="Croissant" class="btn btn-secondary bi bi-moon"></button></a>
         </row>
-        <div>Contact: <br>{{ contact }}</div>
-        <row>Keywords:<br>
+        <div>Contact: <br>{{ contact_clickable|safe }}</div>
+        <div>Created: {{ created }}</div>
+        <row>Keywords:
           {% for word in AIFARMS_keywords %}
-            {% if loop.index == AIFARMS_keywords|length %}
-              <a>{{ word }}</a>
-            {% else %}
-              <a>{{ word }}, </a>
-            {% endif %}
+              <br>{{ word }}
           {% endfor -%}
         </row>
+        <div>Download Size: {{ filesize }}</div>
       </div>
     </div>
   </div>
-    <div>Created: {{ created }}</div>
     <div>{{ description|safe }}</div>
     <div>{{ citation }}</div>
     <div>{{ funding }}</div>
