@@ -79,7 +79,8 @@ def citation_dataset(dataset):
 
 @app.get("/sitemap.xml")
 def sitemap():
-    return flask.render_template("sitemap.xml")
+    rendered_sitemap = render_template("sitemap.xml", dataset="piglife")
+    return flask.Response(rendered_sitemap, mimetype='application/xml')
 
 @app.get("/license/<dataset>")
 def license_dataset(dataset):
