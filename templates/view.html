@@ -44,10 +44,10 @@
           <a href="croissant/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top"
             title="Croissant" class="btn btn-secondary bi bi-moon"></button></a>
         </row>
-        <div>Contact: <br>{{ contact_clickable|safe }}</div>
+        <div>Contact: <br>{{ contact.name }}<br><a href=mailto: {{ contact.email }}> {{ contact.email }}</a></div>
         <div>Created: {{ created }}</div>
         <row>Keywords:
-          {% for word in AIFARMS_keywords %}
+          {% for word in aifarms_keywords %}
               <br>{{ word }}
           {% endfor -%}
         </row>
