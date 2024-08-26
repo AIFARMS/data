@@ -56,7 +56,6 @@ def create_schema(dataset):
       "keywords": 
       "license": "https://data.aifarms.org/license/{data[dataset]['title'].lower().replace(" ", "")}",
       "identifier": {{
-      
       }}
       "citation": {data[dataset]['citation']}
       "creator": [
