@@ -2,6 +2,7 @@ import datetime
 import os
 import uuid
 
+import re
 import json
 import flask
 import flask_moment
@@ -36,6 +37,60 @@ def load_data():
         return json.load(fp)
     return {}
 
+def create_schema(dataset):
+    data = load_data()
+    if dataset not in data:
+        return flask.redirect('/')
+    var = "hello"
+    schema_string = f"""
+    <script type="application/ld+json">
+    {{
+      "@context":"https://schema.org/",
+      "@type":"Dataset",
+      "name": {data[dataset]['title']},
+      "description": {re.sub("<.*>", "",data[dataset]['description'])},
+      "url":"https://data.aifarms.org/view/{data[dataset]['title'].lower().replace(" ", "")}",
+      "sameAs":
+      "version":
+      "isAccessibleForFree": true,
+      "keywords": 
+      "license": "https://data.aifarms.org/license/{data[dataset]['title'].lower().replace(" ", "")}",
+      "identifier": {{
+      
+      }}
+      "citation": {data[dataset]['citation']}
+      "creator": [
+        {{
+          "@id": "",
+          "@type": "Role",
+          "roleName": "Author",
+          "creator": {{
+            "@id": "",
+            "@type": "Person",
+            "name": {data[dataset]['authors']}
+          }}
+        }}
+      ],
+      "provider": {{
+        "@id": "",
+        "@type": "",
+        "legalName": ""
+        "name": "",
+        "url": ""
+      }},
+      "publisher": {{
+        "@id": ""
+      }}
+    }}
+    </script>
+    """
+    return schema_string
+
+    #"keywords": {data[dataset]['keywords']}          (no keywords in dataset.json yet)
+
+
+
+
 
 @app.get("/")
 def home():
@@ -65,6 +120,15 @@ def render_template(template, dataset):
 @app.get("/view/<dataset>")
 def view_dataset(dataset):
     return render_template("view.html", dataset=dataset)
+
+@app.get("/ld/<dataset>")
+def view_schema(dataset):
+    data = load_data()
+    if dataset not in data:
+        return flask.redirect('/')
+    schema_string = create_schema(dataset)
+    rendered_schema = Template(schema_string).render(dataset=dataset)
+    return flask.Response(rendered_schema, mimetype='text/plain')
 
 
 @app.get("/croissant/<dataset>")
