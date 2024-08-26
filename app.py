@@ -42,8 +42,7 @@ def create_schema(dataset):
     if dataset not in data:
         return flask.redirect('/')
     var = "hello"
-    schema_string = f"""
-    <script type="application/ld+json">
+    schema_string = f"""<script type="application/ld+json">
     {{
       "@context":"https://schema.org/",
       "@type":"Dataset",
