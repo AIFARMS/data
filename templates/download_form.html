@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block main %}
-    <div>{{ description }}</div>
+    <div>{{ description|safe }}</div>
     <div class="row m-3 p-3 card">
     <form class="needs-validation" method="post" novalidate>
       <div class="mb-3 form-group">
