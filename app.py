@@ -36,28 +36,6 @@ def load_data():
         return json.load(fp)
     return {}
 
-urls = [
-    {"url": "https://data.aifarms.org/"},
-    {"url": "https://data.aifarms.org/view/piglife"},
-    {"url": "https://data.aifarms.org/view/slamdataset"},
-]
-
-sitemap_string = """<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    {% for item in items %}
-    <url>
-        <loc>{{ item.url }}</loc>
-    </url>
-    {% endfor %}
-</urlset>
-"""
-sitemap_template = Template(sitemap_string)
-sitemap_content = sitemap_template.render(items=urls)
-with open("./templates/sitemap.xml", "w", encoding='utf-8') as sitemap:
-    sitemap.write(sitemap_content)
-
-
-
 
 @app.get("/")
 def home():
@@ -101,7 +79,11 @@ def citation_dataset(dataset):
 
 @app.get("/sitemap.xml")
 def sitemap():
-    rendered_sitemap = render_template("sitemap.xml", dataset="piglife")
+    data = load_data()
+    kwargs = {
+        "data": data
+    }
+    rendered_sitemap = flask.render_template("sitemap.xml", **kwargs)
     return flask.Response(rendered_sitemap, mimetype='application/xml')
 
 @app.get("/license/<dataset>")
