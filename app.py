@@ -77,6 +77,11 @@ def croissant_dataset(dataset):
 def citation_dataset(dataset):
     return render_template("citation.cff", dataset=dataset)
 
+@app.get("/sitemap.xml")
+def sitemap():
+    data = load_data()
+    rendered_sitemap = flask.render_template("sitemap.xml", data=data)
+    return flask.Response(rendered_sitemap, mimetype='application/xml')
 
 @app.get("/license/<dataset>")
 def license_dataset(dataset):
