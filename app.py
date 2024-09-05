@@ -37,57 +37,56 @@ def load_data():
         return json.load(fp)
     return {}
 
-def create_schema(dataset):
+
+
+
+def create_json_ld(dataset):
     data = load_data()
-    if dataset not in data:
-        return flask.redirect('/')
-    var = "hello"
-    schema_string = f"""<script type="application/ld+json">
-    {{
+    schema_dict = {
       "@context":"https://schema.org/",
       "@type":"Dataset",
       "name": {data[dataset]['title']},
       "description": {re.sub("<.*>", "",data[dataset]['description'])},
-      "url":"https://data.aifarms.org/view/{data[dataset]['title'].lower().replace(" ", "")}",
-      "sameAs":
-      "version":
-      "isAccessibleForFree": true,
-      "keywords": 
-      "license": "https://data.aifarms.org/license/{data[dataset]['title'].lower().replace(" ", "")}",
-      "identifier": {{
-      }}
-      "citation": {data[dataset]['citation']}
-      "creator": [
-        {{
-          "@id": "",
-          "@type": "Role",
-          "roleName": "Author",
-          "creator": {{
-            "@id": "",
-            "@type": "Person",
-            "name": {data[dataset]['authors']}
-          }}
-        }}
-      ],
-      "provider": {{
+      "url": "https://data.aifarms.org/view/{{ dataset }}",
+      "sameAs": "",
+      "version": "",
+      "isAccessibleForFree": True,
+      "keywords": "{{ keywords }}",
+      "license": "https://data.aifarms.org/license/{{ dataset }}",
+      "identifier": {
+      },
+      "citation": "{{ citation }}",
+      "creator": [],
+      "provider": {
         "@id": "",
         "@type": "",
-        "legalName": ""
+        "legalName": "",
         "name": "",
         "url": ""
-      }},
-      "publisher": {{
+      },
+      "publisher": {
         "@id": ""
-      }}
-    }}
-    </script>
-    """
-    return schema_string
+      }
+    }
+    for i in range(len(data[dataset]['authors'])):
+        schema_dict['creator'].append( {
+              "@id": "",
+              "@type": "Role",
+              "roleName": "Author",
+              "creator": {
+                "@id": "",
+                "@type": "Person",
+                "name": data[dataset]['authors'][i]
+              }
+            })
+    
+    return schema_dict
 
-    #"keywords": {data[dataset]['keywords']}          (no keywords in dataset.json yet)
 
-
-
+def makelist(obj):
+    if isinstance(obj, set):
+        return list(obj)
+    raise TypeError
 
 
 @app.get("/")
@@ -101,6 +100,7 @@ def home():
     }
     return flask.render_template("index.html", **kwargs)
 
+
 def render_template(template, dataset):
     data = load_data()
     if dataset not in data:
@@ -112,21 +112,22 @@ def render_template(template, dataset):
         filesize = "N/A"
     keywords = set(["AIFARMS"])
     keywords.update(data[dataset].get("keywords", ""))
-    return flask.render_template(template, dataset=dataset, filesize=filesize, keywords=keywords, **data[dataset])
+    schema_string = json.dumps(create_json_ld(dataset), default=makelist)
+    return flask.render_template(template, dataset=dataset, filesize=filesize, keywords=keywords, **data[dataset], schema_string=schema_string)
 
 
 @app.get("/view/<dataset>")
 def view_dataset(dataset):
     return render_template("view.html", dataset=dataset)
 
+
 @app.get("/ld/<dataset>")
 def view_schema(dataset):
     data = load_data()
     if dataset not in data:
         return flask.redirect('/')
-    schema_string = create_schema(dataset)
-    rendered_schema = Template(schema_string).render(dataset=dataset)
-    return flask.Response(rendered_schema, mimetype='text/plain')
+    schema_string = json.dumps(create_json_ld(dataset), default=makelist)
+    return flask.Response(schema_string, mimetype='application/ld+json')
 
 
 @app.get("/croissant/<dataset>")
