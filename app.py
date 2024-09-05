@@ -42,6 +42,8 @@ def load_data():
 
 def create_json_ld(dataset):
     data = load_data()
+    if dataset not in data:
+        return {}
     json_ld_dict = {
       "@context": "https://schema.org/",
       "@type": "Dataset",
