@@ -113,7 +113,7 @@ def render_template(template, dataset):
     keywords = set(["AIFARMS"])
     keywords.update(data[dataset].get("keywords", ""))
     schema_string = json.dumps(create_json_ld(dataset), default=makelist)
-    return flask.render_template(template, dataset=dataset, filesize=filesize, keywords=keywords, **data[dataset], schema_string=schema_string)
+    return flask.render_template(template, dataset=dataset, filesize=filesize, aifarms_keywords=keywords, **data[dataset], schema_string=schema_string)
 
 
 @app.get("/view/<dataset>")
