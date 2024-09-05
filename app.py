@@ -42,45 +42,46 @@ def load_data():
 
 def create_json_ld(dataset):
     data = load_data()
-    schema_dict = {
-      "@context":"https://schema.org/",
-      "@type":"Dataset",
-      "name": {data[dataset]['title']},
-      "description": {re.sub("<.*>", "",data[dataset]['description'])},
-      "url": "https://data.aifarms.org/view/{{ dataset }}",
-      "sameAs": "",
-      "version": "",
+    json_ld_dict = {
+      "@context": "https://schema.org/",
+      "@type": "Dataset",
+      "name": data[dataset]['title'],
+      "description": re.sub("<.*>", "",data[dataset]['description']),
+      "url": f"https://data.aifarms.org/view/{ dataset }",
+      #"sameAs": "",
+      #"version": "",
       "isAccessibleForFree": True,
-      "keywords": "{{ keywords }}",
-      "license": "https://data.aifarms.org/license/{{ dataset }}",
-      "identifier": {
-      },
-      "citation": "{{ citation }}",
+      "keywords": [],
+      "license": f"https://data.aifarms.org/license/{ dataset }",
+      #"identifier": {},
+      "citation": data[dataset]['citation'],
       "creator": [],
-      "provider": {
-        "@id": "",
-        "@type": "",
-        "legalName": "",
-        "name": "",
-        "url": ""
-      },
-      "publisher": {
-        "@id": ""
-      }
+      #"provider": {
+        #"@id": "",
+        #"@type": "",
+        #"legalName": "",
+        #"name": "",
+        #"url": ""
+      #},
+      #"publisher": {
+      #  "@id": ""
+      #}
     }
     for i in range(len(data[dataset]['authors'])):
-        schema_dict['creator'].append( {
-              "@id": "",
+        json_ld_dict['creator'].append( {
+              #"@id": "",
               "@type": "Role",
               "roleName": "Author",
               "creator": {
-                "@id": "",
+                #"@id": "",
                 "@type": "Person",
                 "name": data[dataset]['authors'][i]
               }
             })
+    for i in range(len(data[dataset]['keywords'])):
+        json_ld_dict['keywords'].append(data[dataset]['keywords'][i])
     
-    return schema_dict
+    return json_ld_dict
 
 
 def makelist(obj):
@@ -112,8 +113,8 @@ def render_template(template, dataset):
         filesize = "N/A"
     keywords = set(["AIFARMS"])
     keywords.update(data[dataset].get("keywords", ""))
-    schema_string = json.dumps(create_json_ld(dataset), default=makelist)
-    return flask.render_template(template, dataset=dataset, filesize=filesize, aifarms_keywords=keywords, **data[dataset], schema_string=schema_string)
+    json_ld_string = json.dumps(create_json_ld(dataset), default=makelist)
+    return flask.render_template(template, dataset=dataset, filesize=filesize, aifarms_keywords=keywords, **data[dataset], json_ld_string=json_ld_string)
 
 
 @app.get("/view/<dataset>")
@@ -122,12 +123,12 @@ def view_dataset(dataset):
 
 
 @app.get("/ld/<dataset>")
-def view_schema(dataset):
+def view_json_ld(dataset):
     data = load_data()
     if dataset not in data:
         return flask.redirect('/')
-    schema_string = json.dumps(create_json_ld(dataset), default=makelist)
-    return flask.Response(schema_string, mimetype='application/ld+json')
+    json_ld_string = json.dumps(create_json_ld(dataset), default=makelist)
+    return flask.Response(json_ld_string, mimetype='application/ld+json')
 
 
 @app.get("/croissant/<dataset>")
