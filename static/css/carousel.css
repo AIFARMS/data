@@ -25,6 +25,9 @@ body {
 .carousel-item {
   height: 32rem;
 }
+img {
+  object-fit: contain;
+}
 
 
 /* MARKETING CONTENT
