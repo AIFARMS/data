@@ -53,7 +53,7 @@ def create_json_ld(dataset):
       #"sameAs": "",
       #"version": "",
       "isAccessibleForFree": True,
-      "keywords": [],
+      "keywords": data[dataset].get('keywords', []),
       "license": f"https://data.aifarms.org/license/{ dataset }",
       #"identifier": {},
       "citation": data[dataset]['citation'],
@@ -80,8 +80,6 @@ def create_json_ld(dataset):
                 "name": data[dataset]['authors'][i]
               }
             })
-    for i in range(len(data[dataset]['keywords'])):
-        json_ld_dict['keywords'].append(data[dataset]['keywords'][i])
     
     return json_ld_dict
 
