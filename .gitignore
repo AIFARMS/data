@@ -3,3 +3,5 @@
 venv
 html
 data/downloads.sqlite
+__pycache__/
+*.pyc

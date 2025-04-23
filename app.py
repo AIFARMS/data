@@ -52,19 +52,32 @@ def render_template(template, dataset):
     data = load_data()
     if dataset not in data:
         return flask.redirect('/')
+    
+    kwargs = data[dataset]
+    kwargs["dataset"] = dataset
+    
+    if template == "view.html":
+        kwargs["title"] = f"{kwargs['title']} - AIFARMS Data Portal"
+        if isinstance(kwargs.get("contact"), str):
+            name, email = kwargs["contact"].split("<")
+            kwargs["contact"] = {"name": name.strip(), "email": email.strip(" >")}
+    
     zipfile = f"{DATASETS}/{data[dataset]['uuid']}.zip"
     if os.path.exists(zipfile):
-        filesize = sizeof_fmt(os.stat(zipfile).st_size)
+        kwargs["filesize"] = sizeof_fmt(os.stat(zipfile).st_size)
     else:
-        filesize = "N/A"
+        kwargs["filesize"] = "N/A"
+    
     keywords = set(["AIFARMS"])
-    keywords.update(data[dataset].get("keywords", ""))
-    return flask.render_template(template, dataset=dataset, filesize=filesize, aifarms_keywords=keywords, **data[dataset])
+    keywords.update(kwargs.get("keywords", ""))
+    kwargs["aifarms_keywords"] = keywords
+    
+    return flask.render_template(template, **kwargs)
 
 
 @app.get("/view/<dataset>")
 def view_dataset(dataset):
-    return render_template("view.html", dataset=dataset)
+    return render_template("view.html", dataset)
 
 
 @app.get("/croissant/<dataset>")
@@ -214,5 +227,18 @@ def downloads():
                                  title="Downloads", short_decription="List of all downloads", downloads=downloads)
 
 
+@app.get("/datasheet/<dataset>")
+def datasheet_dataset(dataset):
+    data = load_data()
+    if dataset not in data or not data[dataset].get('datasheet', False):
+        flask.abort(404)
+    
+    # Return the datasheet file using send_from_directory
+    return flask.send_from_directory(DATASETS, 
+                                   f"{data[dataset]['uuid']}.dataset.pdf",
+                                   as_attachment=True, 
+                                   download_name=f"{dataset}_datasheet.pdf")
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=8080)

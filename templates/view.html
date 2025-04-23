@@ -8,8 +8,8 @@
 
 
   <div class="container">
-    <div class="row">
-      <div id="myCarousel" class="carousel slide mb-4 w-75" data-bs-ride="carousel">
+    <div class="row position-relative">
+      <div id="myCarousel" class="carousel slide mb-4 col-9 px-0" data-bs-ride="carousel">
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
           {% for image in images -%}
@@ -35,28 +35,40 @@
           <span class="visually-hidden">Next</span>
         </button>
       </div>
-      <div id="nextToCarousel" class="vstack gap-3 w-25" >
-        <row>
-          <a href="download/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top" 
-            title="Download" class="btn btn-secondary bi bi-cloud-download"></button></a>
-          <a href="license/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top" 
-            title="License" class="btn btn-secondary bi bi-cc-circle"></button></a>
-          <a href="croissant/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top"
-            title="Croissant" class="btn btn-secondary bi bi-moon"></button></a>
-        </row>
-        <div>Contact: <br>{{ contact.name }}<br><a href=mailto: {{ contact.email }}> {{ contact.email }}</a></div>
-        <div>Created: {{ created }}</div>
-        <row>Keywords:
-          {% for word in aifarms_keywords %}
-              <br>{{ word }}
-          {% endfor -%}
-        </row>
-        <div>Download Size: {{ filesize }}</div>
+      <div id="nextToCarousel" class="col-3 position-absolute top-0 end-0" >
+        <div class="vstack gap-3">
+          <row>
+            <a href="download/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top" 
+              title="Download" class="btn btn-secondary bi bi-cloud-download"></button></a>
+            <a href="license/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top" 
+              title="License" class="btn btn-secondary bi bi-cc-circle"></button></a>
+            <a href="croissant/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top"
+              title="Croissant" class="btn btn-secondary bi bi-moon"></button></a>
+            {% if datasheet %}
+            <a href="datasheet/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top"
+              title="Datasheet" class="btn btn-secondary bi bi-file-text"></button></a>
+            {% endif %}
+          </row>
+          <div>Contact: <br>{{ contact.name }}<br><a href=mailto: {{ contact.email }}> {{ contact.email }}</a></div>
+          <div>Created: {{ created }}</div>
+          <div>Keywords:
+            <ul class="list-unstyled mb-0">
+            {% for word in aifarms_keywords %}
+                <li>• {{ word }}</li>
+            {% endfor -%}
+            </ul>
+          </div>
+          <div>Download Size: {{ filesize }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-9">
+        <div>{{ description|safe }}</div>
+        <div>{{ citation }}</div>
+        <div>{{ funding }}</div>
       </div>
     </div>
   </div>
-    <div>{{ description|safe }}</div>
-    <div>{{ citation }}</div>
-    <div>{{ funding }}</div>
 
 {% endblock %}
