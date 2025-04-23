@@ -59,8 +59,11 @@ def render_template(template, dataset):
     if template == "view.html":
         kwargs["title"] = f"{kwargs['title']} - AIFARMS Data Portal"
         if isinstance(kwargs.get("contact"), str):
-            name, email = kwargs["contact"].split("<")
-            kwargs["contact"] = {"name": name.strip(), "email": email.strip(" >")}
+            if "<" in kwargs["contact"]:
+                name, email = kwargs["contact"].split("<")
+                kwargs["contact"] = {"name": name.strip(), "email": email.strip(" >")}
+            else:
+                kwargs["contact"] = {"name": kwargs["contact"].strip(), "email": ""}
     
     zipfile = f"{DATASETS}/{data[dataset]['uuid']}.zip"
     if os.path.exists(zipfile):
