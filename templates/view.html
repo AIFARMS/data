@@ -38,7 +38,7 @@
       <div id="nextToCarousel" class="col-3 position-absolute top-0 end-0" >
         <div class="vstack gap-3">
           <row>
-            {% if license and license != 'N/A' and license != '' %}
+            {% if filesize and filesize != 'N/A' and filesize != '' %}
             <a href="download/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top" 
               title="Download" class="btn btn-secondary bi bi-cloud-download"></button></a>
             {% endif %}
@@ -62,7 +62,9 @@
             {% endfor -%}
             </ul>
           </div>
+          {% if filesize and filesize != 'N/A' and filesize != '' %}
           <div>Download Size: {{ filesize }}</div>
+          {% endif %}
         </div>
       </div>
     </div>

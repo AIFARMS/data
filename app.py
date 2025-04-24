@@ -56,9 +56,9 @@ def render_template(template, dataset):
     kwargs = data[dataset]
     kwargs["dataset"] = dataset
     
-    # Check for LICENSE.txt file
+    # Check for license.txt file
     dataset_folder = os.path.join(DATASETS, dataset)
-    license_file = os.path.join(dataset_folder, "LICENSE.txt")
+    license_file = os.path.join(dataset_folder, "license.txt")
     if os.path.exists(license_file):
         kwargs["license"] = True
     else:
@@ -120,7 +120,7 @@ def license_dataset(dataset):
     if dataset not in data:
         return flask.abort(404)
     dataset_folder = os.path.join(DATASETS, dataset)
-    license_file = os.path.join(dataset_folder, "LICENSE.txt")
+    license_file = os.path.join(dataset_folder, "license.txt")
     if not os.path.exists(license_file):
         return flask.Response("No license specified", mimetype='text/plain')
     with open(license_file, "r") as fp:
@@ -135,7 +135,7 @@ def download_form(dataset):
     if dataset not in data:
         return flask.redirect('/')
     dataset_folder = os.path.join(DATASETS, dataset)
-    license_file = os.path.join(dataset_folder, "LICENSE.txt")
+    license_file = os.path.join(dataset_folder, "license.txt")
     if not os.path.exists(license_file):
         rendered_license = "No license specified"
     else:
