@@ -56,6 +56,20 @@ def render_template(template, dataset):
     kwargs = data[dataset]
     kwargs["dataset"] = dataset
     
+    # Check for LICENSE.txt file
+    dataset_folder = os.path.join(DATASETS, dataset)
+    license_file = os.path.join(dataset_folder, "LICENSE.txt")
+    if os.path.exists(license_file):
+        kwargs["license"] = True
+    else:
+        kwargs["license"] = False
+    # Check for datasheet.pdf file
+    datasheet_file = os.path.join(dataset_folder, "datasheet.pdf")
+    if os.path.exists(datasheet_file):
+        kwargs["datasheet"] = True
+    else:
+        kwargs["datasheet"] = False
+    
     if template == "view.html":
         kwargs["title"] = f"{kwargs['title']} - AIFARMS Data Portal"
         if isinstance(kwargs.get("contact"), str):
@@ -65,7 +79,8 @@ def render_template(template, dataset):
             else:
                 kwargs["contact"] = {"name": kwargs["contact"].strip(), "email": ""}
     
-    zipfile = f"{DATASETS}/{data[dataset]['uuid']}.zip"
+    dataset_folder = os.path.join(DATASETS, dataset)
+    zipfile = os.path.join(dataset_folder, "dataset.zip")
     if os.path.exists(zipfile):
         kwargs["filesize"] = sizeof_fmt(os.stat(zipfile).st_size)
     else:
@@ -103,8 +118,14 @@ def sitemap():
 def license_dataset(dataset):
     data = load_data()
     if dataset not in data:
-        return flask.redirect('/')
-    rendered_license = Template(data[dataset]["license"]).render(**data[dataset])
+        return flask.abort(404)
+    dataset_folder = os.path.join(DATASETS, dataset)
+    license_file = os.path.join(dataset_folder, "LICENSE.txt")
+    if not os.path.exists(license_file):
+        return flask.Response("No license specified", mimetype='text/plain')
+    with open(license_file, "r") as fp:
+        license_template = fp.read()
+    rendered_license = Template(license_template).render(**data[dataset])
     return flask.Response(rendered_license, mimetype='text/plain')
 
 
@@ -113,7 +134,14 @@ def download_form(dataset):
     data = load_data()
     if dataset not in data:
         return flask.redirect('/')
-    rendered_license = Template(data[dataset]["license"]).render(**data[dataset])
+    dataset_folder = os.path.join(DATASETS, dataset)
+    license_file = os.path.join(dataset_folder, "LICENSE.txt")
+    if not os.path.exists(license_file):
+        rendered_license = "No license specified"
+    else:
+        with open(license_file, "r") as fp:
+            license_template = fp.read()
+        rendered_license = Template(license_template).render(**data[dataset])
 
     if flask.request.method == "POST":
         title = flask.request.form.get('title', '').strip()
@@ -127,7 +155,7 @@ def download_form(dataset):
         license = flask.request.form.get('license', 'off')
         if license != 'on':
             return flask.render_template("download_form.html", rendered_license=rendered_license, **data[dataset])
-        download_id = str(uuid.uuid1())
+        download_id = str(uuid.uuid4())
 
         with sqlite3.connect(DBFILE) as db:
             cursor = db.cursor()
@@ -152,11 +180,11 @@ def download_dataset(dataset, id):
     data = load_data()
     if dataset not in data:
         return flask.redirect('/')
-    zipfile = f"{DATASETS}/{data[dataset]['uuid']}.zip"
+    dataset_folder = os.path.join(DATASETS, dataset)
+    zipfile = os.path.join(dataset_folder, "dataset.zip")
     if not os.path.exists(zipfile):
         return flask.redirect('/')
     filesize = sizeof_fmt(os.stat(zipfile).st_size)
-
     download = {}
     with sqlite3.connect(DBFILE) as db:
         db.row_factory = sqlite3.Row
@@ -169,7 +197,6 @@ def download_dataset(dataset, id):
     expires = datetime.datetime.strptime(download['expires'], '%Y-%m-%d %H:%M:%S')
     if expires < datetime.datetime.now():
         return flask.redirect('/')
-
     url = flask.url_for('download_zip', dataset=dataset, id=id, _scheme="https", _external=True)
     return flask.render_template("download_dataset.html",
                                  url=url, expires=expires, download=download, filesize=filesize,
@@ -181,14 +208,14 @@ def download_zip(dataset, id):
     data = load_data()
     if dataset not in data:
         return flask.redirect('/')
-    zipfile = f"{DATASETS}/{data[dataset]['uuid']}.zip"
+    dataset_folder = os.path.join(DATASETS, dataset)
+    zipfile = os.path.join(dataset_folder, "dataset.zip")
     if not os.path.exists(zipfile):
         return flask.redirect('/')
     if os.path.exists(zipfile):
         filesize = sizeof_fmt(os.stat(zipfile).st_size)
     else:
         filesize = "N/A"
-
     download = {}
     with sqlite3.connect(DBFILE) as db:
         db.row_factory = sqlite3.Row
@@ -201,16 +228,18 @@ def download_zip(dataset, id):
     expires = datetime.datetime.strptime(download['expires'], '%Y-%m-%d %H:%M:%S')
     if expires < datetime.datetime.now():
         return flask.redirect('/')
-
-    return flask.send_from_directory(DATASETS, f"{data[dataset]['uuid']}.zip", 
+    return flask.send_from_directory(dataset_folder, "dataset.zip", 
                                      as_attachment=True, download_name=f"{dataset}.zip")
-    # def generate():
-    #     with open(zipfile, "rb") as fp:
-    #         data = fp.read(READ_SIZE)
-    #         while data:
-    #             yield data
-    #             data = fp.read(READ_SIZE)
-    # return flask.Response(generate(), mimetype='application/x-zip')
+
+
+@app.get("/datasheet/<dataset>")
+def datasheet_dataset(dataset):
+    data = load_data()
+    dataset_folder = os.path.join(DATASETS, dataset)
+    datasheet_file = os.path.join(dataset_folder, "datasheet.pdf")
+    if dataset not in data or not os.path.exists(datasheet_file):
+        flask.abort(404)
+    return flask.send_from_directory(dataset_folder, "datasheet.pdf", as_attachment=True, download_name=f"{dataset}_datasheet.pdf")
 
 
 @app.get("/downloads")
@@ -230,17 +259,19 @@ def downloads():
                                  title="Downloads", short_decription="List of all downloads", downloads=downloads)
 
 
-@app.get("/datasheet/<dataset>")
-def datasheet_dataset(dataset):
-    data = load_data()
-    if dataset not in data or not data[dataset].get('datasheet', False):
-        flask.abort(404)
-    
-    # Return the datasheet file using send_from_directory
-    return flask.send_from_directory(DATASETS, 
-                                   f"{data[dataset]['uuid']}.dataset.pdf",
-                                   as_attachment=True, 
-                                   download_name=f"{dataset}_datasheet.pdf")
+@app.route("/image/<dataset>/<name>")
+def serve_image(dataset, name):
+    import mimetypes
+    from flask import abort, send_file
+    allowed_exts = {".png", ".jpg", ".jpeg"}
+    ext = os.path.splitext(name)[1].lower()
+    if ext not in allowed_exts:
+        abort(404)
+    image_path = os.path.join(DATASETS, dataset, name)
+    if not os.path.isfile(image_path):
+        abort(404)
+    mime = mimetypes.guess_type(image_path)[0] or "application/octet-stream"
+    return send_file(image_path, mimetype=mime)
 
 
 if __name__ == "__main__":

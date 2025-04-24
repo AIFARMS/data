@@ -28,6 +28,7 @@
         <label for="inputAffiliation">Affiliation</label>
         <input type="text" class="form-control" id="affiliation" name="affiliation" aria-describedby="affiliationHelp" placeholder="Enter your title">
       </div>
+      {% if rendered_license and rendered_license != 'No license specified' %}
       <div class="mb-3 form-group">
         <label for="license">License Agreement</label>
         <textarea class="form-control" id="license" rows="20" readonly>{{ rendered_license }}</textarea>
@@ -37,6 +38,7 @@
         <label class="form-check-label" for="checkAgree">I agree to the license</label>
         <div class="invalid-feedback">You must agree before submitting.</div>
       </div>
+      {% endif %}
       <button type="mb-3 submit" class="btn btn-primary">Submit</button>
     </form>
     </div>
