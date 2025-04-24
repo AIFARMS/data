@@ -86,6 +86,12 @@ def render_template(template, dataset):
     else:
         kwargs["filesize"] = "N/A"
     
+    # Compute download_url based on presence of url in the dataset
+    if kwargs.get("url") and kwargs["url"] != "":
+        kwargs["download_url"] = kwargs["url"]
+    else:
+        kwargs["download_url"] = f"https://data.aifarms.org/download/{dataset}"
+    
     keywords = set(["AIFARMS"])
     keywords.update(kwargs.get("keywords", ""))
     kwargs["aifarms_keywords"] = keywords
@@ -263,7 +269,7 @@ def downloads():
 def serve_image(dataset, name):
     import mimetypes
     from flask import abort, send_file
-    allowed_exts = {".png", ".jpg", ".jpeg"}
+    allowed_exts = {".png", ".jpg", ".jpeg", ".gif"}
     ext = os.path.splitext(name)[1].lower()
     if ext not in allowed_exts:
         abort(404)

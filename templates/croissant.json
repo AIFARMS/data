@@ -8,7 +8,9 @@
     "conformsTo": "http://mlcommons.org/croissant/1.0",
     "description": "{{ short_description }}",
     "citeAs": "{{ citation }}",
+    {% if license and license != 'N/A' and license != '' %}
     "license": "https://data.aifarms.org/license/{{ dataset }}",
+    {% endif %}
     "url": "https://data.aifarms.org/view/{{ dataset }}",
     "datePublished": "{{ created }}",
     "creator": [
@@ -28,8 +30,10 @@
       {
         "@type": "cr:FileSet",
         "@id": "{{ dataset }}.zip",
-        "contentUrl": "https://data.aifarms.org/download/{{ dataset }}",
+        "contentUrl": "{{ download_url }}",
+        {% if filesize and filesize != 'N/A' and filesize != '' %}
         "contentSize": "{{ filesize }}",
+        {% endif %}
         "encodingFormat": "application/x-zip-compressed"
       }
     ],
