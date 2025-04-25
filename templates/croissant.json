@@ -26,12 +26,12 @@
       {%- endif %}
       {%- endfor %}
     ],
-    {% if (url and url != '') or (filesize and filesize != 'N/A' and filesize != '') %}
+    {% if download_url %}
     "distribution": [
       {
         "@type": "cr:FileSet",
         "@id": "{{ dataset }}.zip",
-        "contentUrl": "{{ url if url and url != '' else download_url }}",
+        "contentUrl": "{{ download_url }}",
         {% if filesize and filesize != 'N/A' and filesize != '' %}
         "contentSize": "{{ filesize }}",
         {% endif %}

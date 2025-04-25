@@ -38,7 +38,7 @@
       <div id="nextToCarousel" class="col-3 position-absolute top-0 end-0" >
         <div class="vstack gap-3">
           <row>
-            {% if (filesize and filesize != 'N/A' and filesize != '') or (url and url != '') %}
+            {% if download_url %}
             <a href="{{ download_url }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top" 
               title="Download" class="btn btn-secondary bi bi-cloud-download"></button></a>
             {% endif %}
@@ -62,6 +62,17 @@
             {% endfor -%}
             </ul>
           </div>
+          {% if urls %}
+          <div><b>Links:</b>
+            <ul class="mb-0">
+              {% for key, value in urls.items() %}
+                {% if key != 'download' %}
+                  <li><a href="{{ value }}" target="_blank">{{ key|capitalize }}</a></li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
           {% if filesize and filesize != 'N/A' and filesize != '' %}
           <div>Download Size: {{ filesize }}</div>
           {% endif %}

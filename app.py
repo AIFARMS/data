@@ -69,6 +69,26 @@ def render_template(template, dataset):
         kwargs["datasheet"] = True
     else:
         kwargs["datasheet"] = False
+    # Check for dataset.zip file
+    zipfile = os.path.join(dataset_folder, "dataset.zip")
+    if os.path.exists(zipfile):
+        kwargs["filesize"] = sizeof_fmt(os.stat(zipfile).st_size)
+        kwargs["download_url"] = f"https://data.aifarms.org/download/{dataset}"
+    else:
+        kwargs["filesize"] = "N/A"
+        kwargs["download_url"] = ""
+
+    # Compute download_url based on presence of urls['download'] or urls['github']
+    urls = kwargs.get("urls", {})
+    if not kwargs["download_url"]:
+        if "download" in urls and urls["download"]:
+            kwargs["download_url"] = urls["download"]
+        elif "github" in urls and urls["github"]:
+            kwargs["download_url"] = urls["github"]
+
+    keywords = set(["AIFARMS"])
+    keywords.update(kwargs.get("keywords", ""))
+    kwargs["aifarms_keywords"] = keywords
     
     if template == "view.html":
         kwargs["title"] = f"{kwargs['title']} - AIFARMS Data Portal"
@@ -78,23 +98,6 @@ def render_template(template, dataset):
                 kwargs["contact"] = {"name": name.strip(), "email": email.strip(" >")}
             else:
                 kwargs["contact"] = {"name": kwargs["contact"].strip(), "email": ""}
-    
-    dataset_folder = os.path.join(DATASETS, dataset)
-    zipfile = os.path.join(dataset_folder, "dataset.zip")
-    if os.path.exists(zipfile):
-        kwargs["filesize"] = sizeof_fmt(os.stat(zipfile).st_size)
-    else:
-        kwargs["filesize"] = "N/A"
-    
-    # Compute download_url based on presence of url in the dataset
-    if kwargs.get("url") and kwargs["url"] != "":
-        kwargs["download_url"] = kwargs["url"]
-    else:
-        kwargs["download_url"] = f"https://data.aifarms.org/download/{dataset}"
-    
-    keywords = set(["AIFARMS"])
-    keywords.update(kwargs.get("keywords", ""))
-    kwargs["aifarms_keywords"] = keywords
     
     return flask.render_template(template, **kwargs)
 

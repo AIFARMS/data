@@ -16,7 +16,7 @@
       "email": "angelag@illinois.edu"
     },
     "citation": "",
-    "keywords":["pigs"],
+    "keywords": ["pigs"],
     "funding": "This work is supported by Agriculture and Food Research Initiative (AFRI) grant no. 2020-67021-32799/project accession no.1024178 from the USDA National Institute of Food and Agriculture."
   },
   "slamdataset": {
@@ -37,11 +37,40 @@
     "short_description": "This dataset is intended for the evaluation of visual-based localization and mapping systems in agriculture.",
     "description": "This dataset is intended for the evaluation of visual-based localization and mapping systems in agriculture. It includes stereo images, IMU, GPS, and wheel encoder measurements. It was collected from a ground robot in the Illinois Autonomous Farm at the University of Illinois at Urbana-Champaign. The collection campaign took place during the Summer of 2022. Different data sequences were collected twice per week in corn fields, and less often in soybean and sorghum. This dataset exhibit high variability in terms of weather conditions and growth stages. It contains challenging features like occlusions, illumination variations, weeds, dynamic objects, and rough terrain.",
     "images": [],
-    "contact": { 
+    "contact": {
       "name": "Jose Cuaran"
     },
     "citation": "",
-    "keywords":[],
+    "keywords": [],
     "funding": "This work is supported by National Institute of Food and Agriculture grant no. 2020-67021- 32799"
+  },
+  "multi-camera-pig-tracking": {
+    "title": "Multi Camera Pig Tracking",
+    "preview": "image/multi-camera-pig-tracking/multicam-tracking.png",
+    "authors": [
+      "Aniket Shirke",
+      "J. Li",
+      "A. Green-Miller",
+      "T. Williams",
+      "X. Hu",
+      "A. Luthra",
+      "N. Ahuja",
+      "M. Caesar"
+    ],
+    "department": "",
+    "created": "Jul 1, 2021",
+    "short_description": "Tracking Grow-Finish Pigs Across Large Pens Using Multiple Cameras.",
+    "description": "",
+    "images": [],
+    "contact": {
+      "name": "Angela Green-Miller",
+      "email": "angelag@illinois.edu"
+    },
+    "citation": "",
+    "keywords": ["pigs"],
+    "funding": "",
+    "urls": {
+      "github": "https://github.com/AIFARMS/multi-camera-pig-tracking"
+    }
   }
 }
