@@ -140,6 +140,14 @@ def download_form(dataset):
     data = load_data()
     if dataset not in data:
         return flask.redirect('/')
+    dataset_info = data[dataset]
+    dataset_folder = os.path.join(DATASETS, dataset)
+    zipfile = os.path.join(dataset_folder, "dataset.zip")
+    has_url = bool(dataset_info.get("url", ""))
+    has_zip = os.path.exists(zipfile)
+    if not has_url and not has_zip:
+        # Redirect to view page if neither url nor dataset.zip exists
+        return flask.redirect(flask.url_for('view_dataset', dataset=dataset))
     dataset_folder = os.path.join(DATASETS, dataset)
     license_file = os.path.join(dataset_folder, "license.txt")
     if not os.path.exists(license_file):
@@ -176,6 +184,8 @@ def download_form(dataset):
 def sizeof_fmt(num, suffix="B"):
     for unit in ("", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"):
         if abs(num) < 1024.0:
+            if unit == "":
+                return f"{int(num)}{unit}{suffix}"
             return f"{num:3.1f}{unit}{suffix}"
         num /= 1024.0
     return f"{num:.1f}Yi{suffix}"

@@ -26,17 +26,19 @@
       {%- endif %}
       {%- endfor %}
     ],
+    {% if (url and url != '') or (filesize and filesize != 'N/A' and filesize != '') %}
     "distribution": [
       {
         "@type": "cr:FileSet",
         "@id": "{{ dataset }}.zip",
-        "contentUrl": "{{ download_url }}",
+        "contentUrl": "{{ url if url and url != '' else download_url }}",
         {% if filesize and filesize != 'N/A' and filesize != '' %}
         "contentSize": "{{ filesize }}",
         {% endif %}
         "encodingFormat": "application/x-zip-compressed"
       }
     ],
+    {% endif %}
     "keywords": [
       {%- for keyword in keywords %}
       "{{ keyword }}"
