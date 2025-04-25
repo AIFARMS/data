@@ -1,37 +1,72 @@
+# AIFARMS Data Browser
 
+AIFARMS Data Browser is an open platform for sharing high-quality agricultural datasets with the global research community. It enables dataset creators to publish, document, and license their data using best practices, while making it easy for users to discover, preview, and download datasets for research and development.
 
-## AIFARMS Data Browser
+![AIFARMS Data Browser homepage](homepage.png)
 
-AIFARMS Data Browser is used to share data collected as part as AIFARMS with others across the world. Using best practices metadata about the data is gathered and recorded in json document as well as representative images of the dataset. Once the data is collected, and the appropriate license is selected the data is zipped and placed in next to datasets.json. At this point it is made available for download.
+## Key Features
 
-![Alt](homepage.png "AIFARMS Data Browser homepage")
+- **Rich Metadata**: Each dataset is described with detailed metadata (JSON), including authorship, description, keywords, and licensing information. Representative images and links to related papers or code are provided.
+- **Licensing and Compliance**: Datasets are distributed with clear licensing terms. Users must review and accept the license before downloading, ensuring compliance and responsible data use.
+- **Download Workflow**: After completing a short questionnaire and accepting the license, users receive a unique, time-limited download link for the dataset (as a ZIP file or external URL).
+- **Croissant Metadata**: View datasets in [MLCommons Croissant](https://mlcommons.org/working-groups/data/croissant/) format for interoperability and machine readability.
+- **External and Versioned Datasets**: Supports linking to external datasets and tracking dataset versions.
+- **Analytics**: Download activity is tracked (future feature), and repository activity is visualized with Repobeats.
 
-The view page will show not only the metadata, but also links to download, see the license and a [croissant](https://mlcommons.org/working-groups/data/croissant/) formatted representation of the metadata.
+## Using the Data Browser
 
-The download page will show the license and a short questionaire. Once this is filled out, a unique link is generated that can be used to download the data.
+- **Browse**: Explore available datasets, preview metadata, images, and related resources.
+- **View**: Inspect detailed metadata, licensing terms, and Croissant-formatted records.
+- **Download**: Complete the license agreement and questionnaire to obtain a secure download link.
 
 ## Local Development
 
-The repository contains everything needed to run. The data folder has a simmple json document with data, and a single downloadable zip file. To automatically reload the container when changes are made use:
-```
-docker compose up --build --watch
-```
+This repository is self-contained for easy local development and testing.
+
+- Requirements: Python 3.11+, Docker (optional)
+- Install dependencies:
+  ```
+  pip install -r requirements.txt
+  ```
+- Start with Docker (auto-reloads on changes):
+  ```
+  docker compose up --build --watch
+  ```
+- Or run directly:
+  ```
+  python app.py
+  ```
+- Access the app at [http://localhost:8080](http://localhost:8080)
+
+## File Structure
+
+- `data/` — Contains datasets.json and all dataset ZIP files
+- `templates/` — HTML templates for the web UI
+- `static/` — Static assets (CSS, JS, images)
+- `app.py` — Main Flask application
+- `Dockerfile`, `docker-compose.yaml` — Containerization support
+- `requirements.txt` — Python dependencies
+
+## TODO
+
+- [ ] Send email to contact when person accepts license
+- [ ] Send email to registeree with link to download
+- [ ] Track downloads per dataset
+- [X] Add links to other repositories (papers, code)
+- [X] Ability to link to external dataset
+- [ ] Ability for versions of the dataset
+- [ ] Ability to combine multiple datasets
 
 ## License
 
 Copyright (c) 2024, University of Illinois
 
-All rights reserved.
+All rights reserved. See [LICENSE](LICENSE) for details.
 
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+## Citing Datasets
 
-- Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-- Neither the name of {{ project }} nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+Each dataset includes citation information (see the dataset metadata or citation file). Please cite appropriately in your work.
 
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+## Project Activity
 
-## Activities
-
-![Alt](https://repobeats.axiom.co/api/embed/f61bd692c857322bb9212f37b387e0851a99fb03.svg "Repobeats analytics image")
-
+![Repobeats analytics image](https://repobeats.axiom.co/api/embed/f61bd692c857322bb9212f37b387e0851a99fb03.svg)
