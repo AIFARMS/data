@@ -37,45 +37,39 @@
       </div>
       <div id="nextToCarousel" class="col-3 position-absolute top-0 end-0" >
         <div class="vstack gap-3">
-          <row>
-            {% if download_url %}
-            <a href="{{ download_url }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top" 
-              title="Download" class="btn btn-secondary bi bi-cloud-download"></button></a>
-            {% endif %}
-            {% if license and license != 'N/A' and license != '' %}
-            <a href="license/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top" 
-              title="License" class="btn btn-secondary bi bi-cc-circle"></button></a>
-            {% endif %}
-            <a href="croissant/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top"
-              title="Croissant" class="btn btn-secondary bi bi-moon"></button></a>
-            {% if datasheet %}
-            <a href="datasheet/{{ dataset }}"><button type="submit" data-bs-toggle="tooltip" data-bs-placement="top"
-              title="Datasheet" class="btn btn-secondary bi bi-file-text"></button></a>
-            {% endif %}
-          </row>
           <div>Contact: <br>{{ contact.name }}<br><a href=mailto: {{ contact.email }}> {{ contact.email }}</a></div>
           <div>Created: {{ created }}</div>
+          {% if filesize and filesize != 'N/A' and filesize != '' %}
+          <div>Download Size: {{ filesize }}</div>
+          {% endif %}
+          <div><b>Links:</b>
+            <ul class="mb-0">
+              {% if download_url %}
+                <li><a href="{{ download_url }}" target="_blank">Download</a></li>
+              {% endif %}
+              {% if license and license != 'N/A' and license != '' %}
+                <li><a href="license/{{ dataset }}" target="_blank">License</a></li>
+              {% endif %}
+              <li><a href="croissant/{{ dataset }}" target="_blank">Croissant</a></li>
+              {% if datasheet %}
+                <li><a href="datasheet/{{ dataset }}" target="_blank">Datasheet</a></li>
+              {% endif %}
+              {% if urls %}
+                {% for key, value in urls.items() %}
+                  {% if key != 'download' %}
+                    <li><a href="{{ value }}" target="_blank">{{ key|capitalize }}</a></li>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            </ul>
+          </div>
           <div>Keywords:
             <ul class="list-unstyled mb-0">
             {% for word in aifarms_keywords %}
                 <li>• {{ word }}</li>
-            {% endfor -%}
+            {% endfor %}
             </ul>
           </div>
-          {% if urls %}
-          <div><b>Links:</b>
-            <ul class="mb-0">
-              {% for key, value in urls.items() %}
-                {% if key != 'download' %}
-                  <li><a href="{{ value }}" target="_blank">{{ key|capitalize }}</a></li>
-                {% endif %}
-              {% endfor %}
-            </ul>
-          </div>
-          {% endif %}
-          {% if filesize and filesize != 'N/A' and filesize != '' %}
-          <div>Download Size: {{ filesize }}</div>
-          {% endif %}
         </div>
       </div>
     </div>

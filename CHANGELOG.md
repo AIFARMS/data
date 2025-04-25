@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Remove github from download_url
+- Moved icon links (Download, License, Croissant, Datasheet) from top right into the Links section, using descriptive text.
+- Moved Links section above Keywords in the sidebar.
+- Download Size now appears below Created in the sidebar.
 
 ## 1.1.0 - 2025-04-25
 
