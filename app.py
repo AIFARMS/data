@@ -83,8 +83,6 @@ def render_template(template, dataset):
     if not kwargs["download_url"]:
         if "download" in urls and urls["download"]:
             kwargs["download_url"] = urls["download"]
-        elif "github" in urls and urls["github"]:
-            kwargs["download_url"] = urls["github"]
 
     keywords = set(["AIFARMS"])
     keywords.update(kwargs.get("keywords", ""))
